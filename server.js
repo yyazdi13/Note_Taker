@@ -18,6 +18,7 @@ var data = [
     }
 ];
 
+var x = parseInt(data[0].id);
 // app.get("/", function(req, res){
 //     res.sendFile(path.join(__dirname, "../../index.html"));
 // });
@@ -29,21 +30,18 @@ var data = [
 
 app.post("/api/notes", function(req, res){
     var newNote = req.body;
-    console.log(newNote);
-    for (let i = 0; i < res.length; i++){
-        console.log(data[i].id);
-        var x = parseFloat(data[i].id);
+    for (let i = 0; i < data.length; i++){
         x++;
-        console.log(x);
     }
-    // fs.appendFile("../../journal.json", req.body, function(err, data){
+    newNote.id = x;
+    // fs.appendFile("./journal.json", req.body, function(err, data){
     //     if (err){
     //         throw err;
     //     }
     //     else console.log(data);
     // });
     data.push(newNote);
-    res.json(data);
+    console.log(data);
 });
 
 app.listen(PORT, function(){
