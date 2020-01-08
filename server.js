@@ -10,15 +10,15 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use('/', htmlRoutes);
 
-var data = [
+const notes = [
     {
         title: 'title',
         text: 'text',
-        id: '1'
+        id: '0'
     }
 ];
 
-var x = parseInt(data[0].id);
+// var x = parseInt(notes[0].id);
 // app.get("/", function(req, res){
 //     res.sendFile(path.join(__dirname, "../../index.html"));
 // });
@@ -30,18 +30,27 @@ var x = parseInt(data[0].id);
 
 app.post("/api/notes", function(req, res){
     var newNote = req.body;
-    for (let i = 0; i < data.length; i++){
+    for (let i = 0; i < notes.length; i++){
+        var x = parseInt(notes[i].id);
         x++;
+        console.log(x);
     }
-    newNote.id = x;
-    // fs.appendFile("./journal.json", req.body, function(err, data){
-    //     if (err){
-    //         throw err;
-    //     }
-    //     else console.log(data);
-    // });
-    data.push(newNote);
-    console.log(data);
+    newNote.id = JSON.stringify(x);
+    notes.push(newNote);
+    var saveNote = JSON.stringify(notes, null, 2);
+    fs.appendFile("./journal.json", saveNote, function(err, data){
+        if (err){
+            throw err;
+        }
+    });
+});
+
+app.get("/api/notesdb", function(req, res){
+    res.json(data, {id: x});
+});
+
+app.delete("/api/notes", function(req, res){
+
 });
 
 app.listen(PORT, function(){
